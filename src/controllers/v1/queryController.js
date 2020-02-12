@@ -1,7 +1,7 @@
 const express = require('express');
 
-const QueryList = require('../models/queryList');
-const Query = require('../models/query');
+const QueryList = require('../../models/queryList');
+const Query = require('../../models/query');
 
 const router = express.Router();
 
@@ -29,4 +29,16 @@ router.post('/addOne', async (req, res) => {
     }
 });
 
-module.exports = app => app.use('/query', router);
+router.get('/', async (req, res) => {
+    try {
+        const queries = await QueryList.find({})
+        return res.send({ queries });
+    } catch (e) {
+        if (e) {
+            console.log(e);
+            return res.status(400).send({ error: 'Fail'});
+        }
+    }
+});
+
+module.exports = router

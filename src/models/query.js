@@ -13,7 +13,6 @@ const QuerySchema = new mongoose.Schema({
         type: String,
         required: true,
         lowercase: true,
-        unique: true
     },
     query: {
         type: Boolean,

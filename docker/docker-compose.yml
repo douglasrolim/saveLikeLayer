@@ -1,0 +1,37 @@
+version: '2'
+services:
+    mongodb:
+        image: mongo:latest
+        container_name: "mongodb"
+        hostname: mongodb
+        environment:
+          - MONGO_INITDB_DATABASE=query
+        volumes:
+          - mongodata:/data/db
+        ports:
+          - 27017:27017
+        networks:
+          - mongodb_net
+
+    mongoclient:
+        image: mongoclient/mongoclient:latest
+        container_name: "mongoclient"
+        hostname: mongoclient
+        ports:
+          - 3000:3000
+        depends_on:
+          - mongodb
+        networks:
+        - mongodb_net
+
+volumes:
+  mongodata:
+
+networks:
+  mongodb_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.213.0/24
+          gateway: 192.168.213.1

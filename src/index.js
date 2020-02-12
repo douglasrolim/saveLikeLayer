@@ -6,6 +6,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-require('./controllers/queryController')(app);
+require('./controllers/v1')(app);
 
 app.listen(8000);
