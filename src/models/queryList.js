@@ -1,6 +1,8 @@
 const mongoose = require('../database');
 const Query = require('./query').schema
 
+const defaultLocation = '/v1/static/default.png'
+
 const QuerySchema = new mongoose.Schema({
     name: {
         type: String,
@@ -10,10 +12,14 @@ const QuerySchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    querys: [Query],
+    queries: [Query],
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    image: {
+        type: String,
+        default: defaultLocation
     }
 });
 

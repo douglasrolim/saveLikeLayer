@@ -11,6 +11,10 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "mongoose": "^5.8.11"
+    "fs": "0.0.1-security",
+    "mongoose": "^5.8.11",
+    "multer": "^1.4.2",
+    "path": "^0.12.7",
+    "unixify": "^1.0.0"
   }
 }
