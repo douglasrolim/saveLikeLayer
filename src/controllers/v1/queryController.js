@@ -2,9 +2,10 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const unixify = require('unixify');
+const fs = require('fs');
 
 const QueryList = require('../../models/queryList');
-const Query = require('../../models/query');
+const Layer = require('../../models/layer');
 
 const router = express.Router();
 
@@ -19,16 +20,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post('/add', upload.single('image'), async (req, res) => {
+router.post('', upload.single('image'), async (req, res) => {
     try {
         let queryList = {
             name: req.body.name,
             description: req.body.description,
-            queries: JSON.parse(req.body.queries)
+            layers: JSON.parse(req.body.layers),
+            zoom: req.body.zoom,
+            lat: req.body.lat,
+            lng: req.body.lng
         };
 
         if  (req.file && req.file.path)  {
-            queryList['image'] = '/v1/' + unixify(req.file.path)
+            queryList['image'] = unixify(req.file.path)
         }
 
         queryList = await QueryList.create(queryList);
@@ -41,9 +45,30 @@ router.post('/add', upload.single('image'), async (req, res) => {
     }
 });
 
+router.delete('/:id', async (req, res) => {
+    try {
+        const query = await QueryList.findOneAndDelete();
+
+        if (query.image) {
+            await fs.unlink(query.toObject().image, (err) => {
+                if (err) {
+                    console.log(err)
+                }
+            })
+        }
+        
+        return res.send(query);
+    } catch (e) {
+        if (e) {
+            console.log(e);
+            return res.status(400).send({ error: 'Fail'});
+        }
+    }
+});
+
 router.post('/addOne', async (req, res) => {
     try {
-        const query = await Query.create(req.body);
+        const layer = await Layer.create(req.body);
         return res.send({ query });
     } catch (e) {
         if (e) {
@@ -53,7 +78,7 @@ router.post('/addOne', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('', async (req, res) => {
     try {
         const queries = await QueryList.find({})
         return res.send(queries);

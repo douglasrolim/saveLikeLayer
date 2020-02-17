@@ -1,7 +1,7 @@
 const mongoose = require('../database');
 
-const QuerySchema = new mongoose.Schema({
-    layer: {
+const LayerSchema = new mongoose.Schema({
+    name: {
         type: String,
         required: true
     },
@@ -14,7 +14,7 @@ const QuerySchema = new mongoose.Schema({
         required: true,
         lowercase: true,
     },
-    query: {
+    isQuery: {
         type: Boolean,
         default: false
     },
@@ -22,8 +22,8 @@ const QuerySchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    $query: {
-        type: Object,
+    query: {
+        type: String,
         required: false
     },
     style: {
@@ -32,6 +32,6 @@ const QuerySchema = new mongoose.Schema({
     }
 });
 
-const Query = mongoose.model('Query', QuerySchema);
+const Layer = mongoose.model('Layer', LayerSchema);
 
-module.exports = Query;
+module.exports = Layer;
