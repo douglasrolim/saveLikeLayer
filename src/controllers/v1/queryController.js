@@ -47,7 +47,7 @@ router.post('', upload.single('image'), async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const query = await QueryList.findOneAndDelete();
+        const query = await QueryList.findOneAndDelete({_id: req.params.id});
 
         if (query.image) {
             await fs.unlink(query.toObject().image, (err) => {
@@ -82,6 +82,18 @@ router.get('', async (req, res) => {
     try {
         const queries = await QueryList.find({})
         return res.send(queries);
+    } catch (e) {
+        if (e) {
+            console.log(e);
+            return res.status(400).send({ error: 'Fail'});
+        }
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    try {
+        const query = await QueryList.findOne({_id: req.params.id})
+        return res.send(query);
     } catch (e) {
         if (e) {
             console.log(e);
