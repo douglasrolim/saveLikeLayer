@@ -1,0 +1,19 @@
+version: '2'
+services:
+  mongo_sgeol_viewer:
+    image: mongo
+    ports:
+      - "27019:27017"
+
+  sgeol-viewer-app-container:
+    image: sgeol-viewer-app-container
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/sgeol-viewer-app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo_sgeol_viewer
+
