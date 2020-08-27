@@ -1,7 +1,5 @@
 const express = require('express');
 const path = require('path');
-const multer = require('multer');
-const unixify = require('unixify');
 const fs = require('fs');
 
 const QueryList = require('../../models/queryList');
@@ -9,18 +7,27 @@ const Layer = require('../../models/layer');
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'static/upload/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
+const generateImageFileName = (filename) => {
+    return `image-${Date.now()}${path.extname(filename)}`;
+}
+
+/**
+ * 
+ * @param {*} file - Store the file image and return the storage path
+ * @returns path
+ */
+const storeImageFile = (file) => {
+    try {
+        const imageFileNewName = generateImageFileName(file.name);
+        const path = `static/upload/${imageFileNewName}`;
+        file.mv(path);
+        return path;
+    } catch (error) {
+        throw Error (`Error at store image file - ${file.name}`)
     }
-});
+}
 
-const upload = multer({ storage });
-
-router.post('', upload.single('image'), async (req, res) => {
+router.post('', async (req, res) => {
     try {
         let queryList = {
             name: req.body.name,
@@ -31,8 +38,8 @@ router.post('', upload.single('image'), async (req, res) => {
             lng: req.body.lng
         };
 
-        if  (req.file && req.file.path)  {
-            queryList['image'] = unixify(req.file.path)
+        if  (req.files && req.files['image'])  {
+            queryList['image'] = storeImageFile(req.files['image'])
         }
 
         queryList = await QueryList.create(queryList);
