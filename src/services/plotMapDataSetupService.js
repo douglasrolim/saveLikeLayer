@@ -4,9 +4,12 @@ const { PLOT_SOURCES_TYPES, validatePlotMapDataSetup } = require('./plotMapDataS
 const createOrUpdate = async (setup) => {
     try {
         validatePlotMapDataSetup(setup)
-        if (setup.id)
+        if (setup.id) {
             setup['updated_at'] = Date.now()
-        return await PloatMapDataSetup.create(setup)
+            return await PloatMapDataSetup.findOneAndUpdate({ _id: setup.id }, setup)
+        }
+        else
+            return await PloatMapDataSetup.create(setup)
     } catch (e) {
         throw Error(e)
     }
@@ -25,6 +28,9 @@ const findAll = async (order, page, count) => {
 
 const findByType = async (plotSource, order, page, count) => {
     try {
+        if (!PLOT_SOURCES_TYPES.includes(plotSource))
+            throw SyntaxError(`Plot source must be: ${PLOT_SOURCES_TYPES.join(', ')}`)
+
         const result = PloatMapDataSetup
             .find({ 'plotSource': { $eq: plotSource } }, {}, { skip: page, limit: count })
             .sort({ 'created_at': order === 'desc' ? -1 : 1 })
@@ -35,14 +41,13 @@ const findByType = async (plotSource, order, page, count) => {
 }
 
 const findById = async (id) => {
-    try {
-        const result = await PloatMapDataSetup.findById(id)
+    const result = await PloatMapDataSetup.findOne({ _id: id }, function (err, result) {
+        if (err) return null
         if (!result)
-            throw Error(`Plot map data setup - ${id} not found`)
+            return null
         return result
-    } catch (e) {
-        throw Error(e)
-    }
+    })
+    return result
 }
 
 const deleteById = async (id) => {
