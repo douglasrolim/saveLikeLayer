@@ -26,13 +26,21 @@ const findAll = async (order, page, count) => {
     }
 }
 
-const findByType = async (plotSource, order, page, count) => {
+const findByPlotSourceAndUserIdAndVisibleStatus = async (plotSource, userId, isPrivate, order, page, count) => {
     try {
         if (!PLOT_SOURCES_TYPES.includes(plotSource))
             throw SyntaxError(`Plot source must be: ${PLOT_SOURCES_TYPES.join(', ')}`)
 
+        let filter = {}
+        if (plotSource)
+            filter['plotSource'] = { $eq: plotSource }
+        if (isPrivate !== null && isPrivate !== undefined)
+            filter['private'] = { $eq: isPrivate }
+        if (userId)
+            filter['userId'] = { $eq: userId }
+
         const result = PloatMapDataSetup
-            .find({ 'plotSource': { $eq: plotSource } }, {}, { skip: page, limit: count })
+            .find(filter, {}, { skip: page, limit: count })
             .sort({ 'created_at': order === 'desc' ? -1 : 1 })
         return result
     } catch (e) {
@@ -61,4 +69,4 @@ const deleteById = async (id) => {
     }
 }
 
-module.exports = { createOrUpdate, findAll, findByType, findById, deleteById }
+module.exports = { createOrUpdate, findAll, findByPlotSourceAndUserIdAndVisibleStatus, findById, deleteById }

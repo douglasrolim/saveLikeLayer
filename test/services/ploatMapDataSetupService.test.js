@@ -161,7 +161,7 @@ describe('plotMapDataSetupService.js tests', () => {
         });
     });
 
-    describe('plotMapDataSetupService.findByType() Test', () => {
+    describe('plotMapDataSetupService.findByPlotSourceAndVisibleStatus() Test', () => {
         it('should find by plot source data correctly', async () => {
             let results = []
             for (let i = 0; i < 4; i++) {
@@ -190,10 +190,100 @@ describe('plotMapDataSetupService.js tests', () => {
                 results.push(result)
             }
 
-            let resultCollection = await service.findByType('justPoint', 'asc', 0, 4)
+            let resultCollection = await service.findByPlotSourceAndUserIdAndVisibleStatus(
+                'justPoint', null, null, 'asc', 0, 4
+            )
             assert.equal(resultCollection.length, 4)
 
-            resultCollection = await service.findByType('geojson', 'asc', 0, 6)
+            resultCollection = await service.findByPlotSourceAndUserIdAndVisibleStatus(
+                'geojson', null, null, 'asc', 0, 6
+            )
+            assert.equal(resultCollection.length, 6)
+
+            results.forEach(async elem => {
+                await service.deleteById(elem.id)
+            })
+        });
+
+        it('should find by visible status data correctly', async () => {
+            let results = []
+            for (let i = 0; i < 4; i++) {
+                const mockSetup = {
+                    name: `test-${i + 1}`,
+                    description: 'test',
+                    plotSource: 'justPoint',
+                    userId: '123abc',
+                    private: false,
+                    coordinatesPoints: { latitude: -15, longitude: 7 }
+                }
+                const result = await service.createOrUpdate(mockSetup)
+                results.push(result)
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const mockSetup = {
+                    name: `test-${i + 1}`,
+                    description: 'test',
+                    plotSource: 'justPoint',
+                    userId: '123abc',
+                    private: true,
+                    coordinatesPoints: { latitude: -15, longitude: 7 }
+                }
+                const result = await service.createOrUpdate(mockSetup)
+                results.push(result)
+            }
+
+            let resultCollection = await service.findByPlotSourceAndUserIdAndVisibleStatus(
+                'justPoint', null, false, 'asc', 0, 4
+            )
+            assert.equal(resultCollection.length, 4)
+
+            resultCollection = await service.findByPlotSourceAndUserIdAndVisibleStatus(
+                'justPoint', null, true, 'asc', 0, 6
+            )
+            assert.equal(resultCollection.length, 6)
+
+            results.forEach(async elem => {
+                await service.deleteById(elem.id)
+            })
+        });
+
+        it('should find by user id data correctly', async () => {
+            let results = []
+            for (let i = 0; i < 4; i++) {
+                const mockSetup = {
+                    name: `test-${i + 1}`,
+                    description: 'test',
+                    plotSource: 'justPoint',
+                    userId: '123abc',
+                    private: false,
+                    coordinatesPoints: { latitude: -15, longitude: 7 }
+                }
+                const result = await service.createOrUpdate(mockSetup)
+                results.push(result)
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const mockSetup = {
+                    name: `test-${i + 1}`,
+                    description: 'test',
+                    plotSource: 'justPoint',
+                    userId: 'abc123',
+                    private: true,
+                    coordinatesPoints: { latitude: -15, longitude: 7 }
+                }
+                const result = await service.createOrUpdate(mockSetup)
+                results.push(result)
+            }
+
+            let resultCollection = await service.findByPlotSourceAndUserIdAndVisibleStatus(
+                'justPoint', '123abc', null, 'asc', 0, 4
+            )
+            assert.equal(resultCollection.length, 4)
+
+            resultCollection = await service.findByPlotSourceAndUserIdAndVisibleStatus(
+                'justPoint', 'abc123', null, 'asc', 0, 6
+            )
             assert.equal(resultCollection.length, 6)
 
             results.forEach(async elem => {

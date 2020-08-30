@@ -1,9 +1,7 @@
 const express = require('express');
 const service = require('../../services/plotMapDataSetupService')
 
-
 const router = express.Router();
-
 
 router.get('/', async (req, res) => {
     try {
@@ -13,7 +11,7 @@ router.get('/', async (req, res) => {
             result = (await service.findAll(orderBy, parseInt(page), parseInt(count)))
                 .map(elem => elem.toJSON());
         } else {
-            result = (await service.findByType(plotSource, orderBy, parseInt(page), parseInt(count)))
+            result = (await service.findByPlotSourceAndUserIdAndVisibleStatus(plotSource, orderBy, parseInt(page), parseInt(count)))
                 .map(elem => elem.toJSON());
         }
         if (result.length === 0)
