@@ -9,6 +9,14 @@ const PlotMapDataSetupSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    userId: {
+        type: String,
+        required: true
+    },
+    private: {
+        type: Boolean,
+        required: true
+    },
     plotSource: {
         type: String,
         required: true

@@ -6,6 +6,8 @@ const mockSetupJustPoints = {
     name: 'test',
     description: 'test',
     plotSource: 'justPoint',
+    userId: '123abc',
+    private: false,
     coordinatesPoints: { latitude: -15, longitude: 7 }
 }
 
@@ -13,6 +15,8 @@ const mockSetupGeojson = {
     name: 'test',
     description: 'test',
     plotSource: 'geojson',
+    userId: '123abc',
+    private: false,
     fileFolderName: 'fileFolderName.json'
 }
 
@@ -20,6 +24,8 @@ const mockSetupDraw = {
     name: 'test',
     description: 'test',
     plotSource: 'draw',
+    userId: '123abc',
+    private: true,
     geojson: {
         "type": "FeatureCollection",
         "features": [
@@ -49,6 +55,8 @@ const mockSetupText = {
     name: 'test',
     description: 'test',
     plotSource: 'text',
+    userId: '123abc',
+    private: false,
     coordinatesText: {
         type: 'polygons',
         content: `
@@ -62,6 +70,8 @@ const mockSetupCsv = {
     name: 'test',
     description: 'test',
     plotSource: 'csv',
+    userId: '123abc',
+    private: false,
     fileFolderName: 'fileFolderName.csv'
 }
 
@@ -69,6 +79,8 @@ const mockSetupShapefile = {
     name: 'test',
     description: 'test',
     plotSource: 'shapefile',
+    userId: '123abc',
+    private: false,
     fileFolderName: 'fileFolderName'
 }
 
@@ -117,11 +129,10 @@ describe('plotMapDataSetupService.js tests', () => {
             assert.equal(result.name, mockSetupJustPoints.name);
             const resultFound = await service.findById(result.id)
             resultFound.name = 'updated'
-            setTimeout(async () => {
-                const resultUpdated = await service.createOrUpdate(resultFound)
-                assert.equal(resultUpdated.name, 'updated');
-                await service.deleteById(result.id)
-            }, 2000);
+            await service.createOrUpdate(resultFound)
+            const resultFoundUpdated = await service.findById(result.id)
+            assert.equal(resultFoundUpdated.name, 'updated');
+            await service.deleteById(result.id)
         });
     });
 
@@ -134,6 +145,8 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
+                    userId: '123abc',
+                    private: false,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }
                 const result = await service.createOrUpdate(mockSetup)
@@ -156,6 +169,8 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
+                    userId: '123abc',
+                    private: false,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }
                 const result = await service.createOrUpdate(mockSetup)
@@ -167,6 +182,8 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'geojson',
+                    userId: '123abc',
+                    private: false,
                     fileFolderName: 'fileFolderName.json'
                 }
                 const result = await service.createOrUpdate(mockSetup)

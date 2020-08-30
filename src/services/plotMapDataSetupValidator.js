@@ -7,6 +7,8 @@ const validatePlotMapDataSetup = (setup) => {
     if (!setup) throw Error('Plot Setup - is null')
     else if (!setup.name || setup.name === '') throw Error('Plot Setup - name is null')
     else if (!setup.description || setup.description === '') throw Error('Plot Setup - description is null')
+    else if (setup.private === null || setup.private === undefined) throw Error('Plot Setup - private is null')
+    else if (!setup.userId || setup.userId === '') throw Error('Plot Setup - userId is null')
     else if (!setup.plotSource || setup.plotSource === '') throw Error('Plot Setup - plot source is null')
     else if (!PLOT_SOURCES_TYPES.includes(setup.plotSource))
         throw Error(`Plot Setup - plot source must be one of these: ${PLOT_SOURCES_TYPES.join(', ')}`)
