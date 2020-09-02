@@ -5,15 +5,12 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const { plotSource, orderBy, page, count } = req.query
-        let result = []
-        if (!plotSource) {
-            result = (await service.findAll(orderBy, parseInt(page), parseInt(count)))
-                .map(elem => elem.toJSON());
-        } else {
-            result = (await service.findByPlotSourceAndUserIdAndVisibleStatus(plotSource, orderBy, parseInt(page), parseInt(count)))
-                .map(elem => elem.toJSON());
-        }
+        const { plotSource, userId, isPrivate, orderBy, page, count } = req.query
+
+        const result = (await service.findByPlotSourceAndUserIdAndVisibleStatus(
+            plotSource, userId, isPrivate, orderBy, parseInt(page), parseInt(count))
+        ).map(elem => elem.toJSON());
+        
         if (result.length === 0)
             return res.status(404).send(result);
         return res.status(200).send(result);

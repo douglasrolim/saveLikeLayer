@@ -6,7 +6,10 @@ const mockSetupJustPoints = {
     name: 'test',
     description: 'test',
     plotSource: 'justPoint',
-    userId: '123abc',
+    userCreator: {
+        id: '123abc',
+        name: 'userTest'
+    },
     private: false,
     coordinatesPoints: { latitude: -15, longitude: 7 }
 }
@@ -15,7 +18,10 @@ const mockSetupGeojson = {
     name: 'test',
     description: 'test',
     plotSource: 'geojson',
-    userId: '123abc',
+    userCreator: {
+        id: '123abc',
+        name: 'userTest'
+    },
     private: false,
     fileFolderName: 'fileFolderName.json'
 }
@@ -24,7 +30,10 @@ const mockSetupDraw = {
     name: 'test',
     description: 'test',
     plotSource: 'draw',
-    userId: '123abc',
+    userCreator: {
+        id: '123abc',
+        name: 'userTest'
+    },
     private: true,
     geojson: {
         "type": "FeatureCollection",
@@ -55,7 +64,10 @@ const mockSetupText = {
     name: 'test',
     description: 'test',
     plotSource: 'text',
-    userId: '123abc',
+    userCreator: {
+        id: '123abc',
+        name: 'userTest'
+    },
     private: false,
     coordinatesText: {
         type: 'polygons',
@@ -70,7 +82,10 @@ const mockSetupCsv = {
     name: 'test',
     description: 'test',
     plotSource: 'csv',
-    userId: '123abc',
+    userCreator: {
+        id: '123abc',
+        name: 'userTest'
+    },
     private: false,
     fileFolderName: 'fileFolderName.csv'
 }
@@ -79,7 +94,10 @@ const mockSetupShapefile = {
     name: 'test',
     description: 'test',
     plotSource: 'shapefile',
-    userId: '123abc',
+    userCreator: {
+        id: '123abc',
+        name: 'userTest'
+    },
     private: false,
     fileFolderName: 'fileFolderName'
 }
@@ -145,7 +163,10 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
-                    userId: '123abc',
+                    userCreator: {
+                        id: '123abc',
+                        name: 'userTest'
+                    },
                     private: false,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }
@@ -169,7 +190,10 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
-                    userId: '123abc',
+                    userCreator: {
+                        id: '123abc',
+                        name: 'userTest'
+                    },
                     private: false,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }
@@ -182,7 +206,10 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'geojson',
-                    userId: '123abc',
+                    userCreator: {
+                        id: '123abc',
+                        name: 'userTest'
+                    },
                     private: false,
                     fileFolderName: 'fileFolderName.json'
                 }
@@ -212,7 +239,10 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
-                    userId: '123abc',
+                    userCreator: {
+                        id: '123abc',
+                        name: 'userTest'
+                    },
                     private: false,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }
@@ -225,7 +255,10 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
-                    userId: '123abc',
+                    userCreator: {
+                        id: '123abc',
+                        name: 'userTest'
+                    },
                     private: true,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }
@@ -255,7 +288,10 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
-                    userId: '123abc',
+                    userCreator: {
+                        id: '123abc',
+                        name: 'userTest'
+                    },
                     private: false,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }
@@ -268,7 +304,10 @@ describe('plotMapDataSetupService.js tests', () => {
                     name: `test-${i + 1}`,
                     description: 'test',
                     plotSource: 'justPoint',
-                    userId: 'abc123',
+                    userCreator: {
+                        id: 'abc123',
+                        name: 'userTest'
+                    },
                     private: true,
                     coordinatesPoints: { latitude: -15, longitude: 7 }
                 }

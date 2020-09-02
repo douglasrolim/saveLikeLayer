@@ -28,16 +28,13 @@ const findAll = async (order, page, count) => {
 
 const findByPlotSourceAndUserIdAndVisibleStatus = async (plotSource, userId, isPrivate, order, page, count) => {
     try {
-        if (!PLOT_SOURCES_TYPES.includes(plotSource))
-            throw SyntaxError(`Plot source must be: ${PLOT_SOURCES_TYPES.join(', ')}`)
-
         let filter = {}
         if (plotSource)
             filter['plotSource'] = { $eq: plotSource }
         if (isPrivate !== null && isPrivate !== undefined)
             filter['private'] = { $eq: isPrivate }
         if (userId)
-            filter['userId'] = { $eq: userId }
+            filter['userCreator.id'] = { $eq: userId }
 
         const result = PloatMapDataSetup
             .find(filter, {}, { skip: page, limit: count })
