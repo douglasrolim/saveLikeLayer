@@ -12,7 +12,7 @@ const validatePlotMapDataSetup = (setup) => {
     else if (!setup.userCreator) throw Error('Plot Setup - user creator is null')
     else if (!setup.userCreator.id || !setup.userCreator.id === '') throw Error('Plot Setup - user creator id is null')
     else if (!setup.userCreator.name || !setup.userCreator.name === '') throw Error('Plot Setup - user creator name is null')
-    
+
     else if (!setup.plotSource || setup.plotSource === '') throw Error('Plot Setup - plot source is null')
     else if (!PLOT_SOURCES_TYPES.includes(setup.plotSource))
         throw Error(`Plot Setup - plot source must be one of these: ${PLOT_SOURCES_TYPES.join(', ')}`)
@@ -23,9 +23,9 @@ const validatePlotMapDataSetup = (setup) => {
         if (!setup.coordinatesPoints.latitude || !setup.coordinatesPoints.longitude)
             throw Error(`Plot Setup - plot source justPoint - latitude and longitude are required`)
     } else if (setup.plotSource === 'geojson') {
-        if (!setup.fileFolderName || setup.fileFolderName === '')
+        if (!setup.fileFolderName || setup.fileFolderName.length > 1)
             throw Error(`Plot Setup - plot source geojson - file folder is required`)
-        if (!setup.fileFolderName.includes('.json') && !setup.fileFolderName.includes('.geojson'))
+        if (!setup.fileFolderName[0].includes('.json') && !setup.fileFolderName[0].includes('.geojson'))
             throw Error(`Plot Setup - plot source geojson - file must be .json or .geojson`)
     } else if (setup.plotSource === 'draw') {
         if (!setup.geojson)
@@ -42,13 +42,27 @@ const validatePlotMapDataSetup = (setup) => {
         if (!setup.coordinatesText.content || setup.coordinatesText.content === '')
             throw Error(`Plot Setup - plot source text - coordinatesText content is required`)
     } else if (setup.plotSource === 'csv') {
-        if (!setup.fileFolderName || setup.fileFolderName === '')
+        if (!setup.fileFolderName || setup.fileFolderName.length > 1)
             throw Error(`Plot Setup - plot source csv - file folder is required`)
-        if (!setup.fileFolderName.includes('.csv'))
+        if (!setup.fileFolderName[0].includes('.csv'))
             throw Error(`Plot Setup - plot source csv - file must be .csv`)
     } else if (setup.plotSource === 'shapefile') {
-        if (!setup.fileFolderName || setup.fileFolderName === '')
+        if (!setup.fileFolderName)
             throw Error(`Plot Setup - plot source shapefile - file folder is required`)
+        else if (setup.fileFolderName.length > 2)
+            throw Error(`Plot Setup - plot source shapefile - only is allowed 2 files`)
+
+        const filesName = setup.fileFolderName
+            .map(elem => {
+                const split = elem.split('/')
+                return split[split.length - 1]
+            })
+            .map(elem => {
+                const split = elem.split('.')
+                return split[0]
+            })
+        if (filesName.length === 2 && (filesName[0] !== filesName[1]))
+            throw Error(`Plot Setup - plot source shapefile - files name must be equals`)
     }
 }
 
