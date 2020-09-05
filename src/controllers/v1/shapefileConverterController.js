@@ -70,8 +70,9 @@ function removeHashFolder(hashFolder) {
 }
 
 router.post('/', async (req, res) => {
+    const hashFolder = generateHashFolderName()
     try {
-        if (!req.files)
+        if (!req.files) 
             return res.status(400).send({ error: 'Any files informed' });
 
         const filesRequest = (req.files.shapes instanceof Array) ? req.files.shapes : [req.files.shapes]
@@ -85,7 +86,6 @@ router.post('/', async (req, res) => {
         if (checkTotalFilesSize(filesRequest))
             return res.status(400).send({ error: 'Total file size must be less or equal to 1 MB' });
 
-        const hashFolder = generateHashFolderName()
         moveShapeFilesToTmpFolder(hashFolder, filesRequest)
         const shapefiles = getShapefilesFromHashFolder(hashFolder, filesRequest)
 
@@ -95,6 +95,7 @@ router.post('/', async (req, res) => {
     } catch (e) {
         if (e) {
             console.log(e);
+            removeHashFolder(hashFolder)
             return res.status(400).send({ error: 'Fail' });
         }
     }
