@@ -23,7 +23,7 @@ const mockSetupGeojson = {
         name: 'userTest'
     },
     private: false,
-    fileFolderName: 'fileFolderName.json'
+    fileFolderName: ['folder/fileFolderName.json']
 }
 
 const mockSetupDraw = {
@@ -87,7 +87,7 @@ const mockSetupCsv = {
         name: 'userTest'
     },
     private: false,
-    fileFolderName: 'fileFolderName.csv'
+    fileFolderName: ['folder/fileFolderName.csv']
 }
 
 const mockSetupShapefile = {
@@ -99,7 +99,7 @@ const mockSetupShapefile = {
         name: 'userTest'
     },
     private: false,
-    fileFolderName: 'fileFolderName'
+    fileFolderName: ['folder/fileFolderName.shp', 'folder/fileFolderName.dbf']
 }
 
 describe('plotMapDataSetupService.js tests', () => {
@@ -211,7 +211,7 @@ describe('plotMapDataSetupService.js tests', () => {
                         name: 'userTest'
                     },
                     private: false,
-                    fileFolderName: 'fileFolderName.json'
+                    fileFolderName: ['folder/fileFolderName.json']
                 }
                 const result = await service.createOrUpdate(mockSetup)
                 results.push(result)

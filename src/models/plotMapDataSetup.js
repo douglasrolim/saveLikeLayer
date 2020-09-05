@@ -54,16 +54,16 @@ const PlotMapDataSetupSchema = new mongoose.Schema({
         required: false
     },
     fileFolderName: {
-        type: String,
+        type: Array,
         required: false
     },
     csvFileConfig: {
         header: {
-            type: [Array],
+            type: Array,
             require: false
         },
         fieldsSelected: {
-            type: [Array],
+            type: Array,
             require: false
         },
         required: false
