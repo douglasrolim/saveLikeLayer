@@ -1,5 +1,5 @@
-const PloatMapDataSetup = require('../models/plotMapDataSetup');
-const { PLOT_SOURCES_TYPES, validatePlotMapDataSetup } = require('./plotMapDataSetupValidator')
+const PloatMapDataSetup = require('../../models/plotMapDataSetup');
+const { PLOT_SOURCES_TYPES, validatePlotMapDataSetup } = require('./validator')
 
 const createOrUpdate = async (setup) => {
     try {

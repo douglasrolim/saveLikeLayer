@@ -5,6 +5,8 @@ const fs = require('fs');
 const QueryList = require('../../models/queryList');
 const Layer = require('../../models/layer');
 
+const service = require('../../services/queryService')
+
 const router = express.Router();
 
 const generateImageFileName = (filename) => {
@@ -42,7 +44,7 @@ router.post('', async (req, res) => {
             queryList['image'] = storeImageFile(req.files['image'])
         }
 
-        queryList = await QueryList.create(queryList);
+        queryList = await service.createOrUpdate(queryList);
         return res.send(queryList);
     } catch (e) {
         if (e) {
@@ -54,7 +56,7 @@ router.post('', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const query = await QueryList.findOneAndDelete({_id: req.params.id});
+        const query = service.deleteById(req.params.id)
 
         if (query.image) {
             await fs.unlink(query.toObject().image, (err) => {
