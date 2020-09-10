@@ -61,10 +61,7 @@ describe('queryService.js tests', () => {
                         "isQuery": true,
                         "queryType": 'indicators',
                         "subtitle": false,
-                        "query": {
-                            "props": 'test.test',
-                            "entitiesId": ['e1', 'e2']
-                        },
+                        "query": `{"props":"bairro;população","entitiesId":["urn:ngsi-ld:bairro:5bc51333528f7f1eeccb7738","urn:ngsi-ld:bairro:5bc51333528f7f1eeccb7733","urn:ngsi-ld:bairro:5bc51333528f7f1eeccb7735"]}`,
                         "name": "Bairros",
                         "description": "Limite dos bairros de Natal",
                         "path": "bairro"

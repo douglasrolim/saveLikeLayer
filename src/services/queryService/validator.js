@@ -4,6 +4,14 @@ const QUERY_TYPE = [
     'indicators'
 ]
 
+const toJSON = (element) => {
+    try {
+        return JSON.parse(element)
+    } catch (e) {
+        return element
+    }
+}
+
 const validateLayer = (layers) => {
     for (const layer of layers) {
         const { isQuery, queryType, query, subtitle, name, description, path } = layer
@@ -22,7 +30,8 @@ const validateLayer = (layers) => {
 
             const indicatorsType = QUERY_TYPE[2]
             if (queryType === indicatorsType) {
-                if (!query.props && !query.entitiesId)
+                const queryJson = toJSON(query)
+                if (!queryJson.props && !queryJson.entitiesId)
                     throw Error(`Query type indicators must contains 'props' and 'entitiesId' fields`)
             }
         }
@@ -38,7 +47,9 @@ const validateQueryList = (queryList) => {
     if (!lat && !lng) throw Error('Latitude and Longitude is required');
     if (!layers || layers.length === 0) throw Error('One or more layers are required')
 
-    validateLayer(layers)
+    queryList.layers.query = toJSON(queryList.layers.query)
+
+    validateLayer(queryList.layers)
 }
 
 module.exports = { validateQueryList }

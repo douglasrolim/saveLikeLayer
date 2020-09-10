@@ -49,7 +49,7 @@ router.post('', async (req, res) => {
     } catch (e) {
         if (e) {
             console.log(e);
-            return res.status(400).send({ error: 'Fail'});
+            return res.status(400).send({ error: e.message });
         }
     }
 });
