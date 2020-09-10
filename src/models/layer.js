@@ -18,6 +18,10 @@ const LayerSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    queryType: {
+        type: String,
+        default: false
+    },
     subtitle: {
         type: Boolean,
         default: false
