@@ -12,13 +12,19 @@ const validateLayer = (layers) => {
         if (!description && description === '') throw Error('Layer description is required');
         if (!subtitle && subtitle === '') throw Error('Layer subtitle is required');
         if (!path && path === '') throw Error('Layer path is required');
-        
+
 
         if (isQuery) {
             if (!QUERY_TYPE.includes(queryType))
                 throw Error(`Query type must be: ${QUERY_TYPE.join(', ')}`)
-            if (!query && query === '')
+            if (!query || query === '')
                 throw Error(`Query is required`)
+
+            const indicatorsType = QUERY_TYPE[2]
+            if (queryType === indicatorsType) {
+                if (!query.props && !query.entitiesId)
+                    throw Error(`Query type indicators must contains 'props' and 'entitiesId' fields`)
+            }
         }
     }
 }

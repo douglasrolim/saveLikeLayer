@@ -27,7 +27,7 @@ const LayerSchema = new mongoose.Schema({
         default: false
     },
     query: {
-        type: String,
+        type: Object,
         required: false
     },
     style: {
