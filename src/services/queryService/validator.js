@@ -1,7 +1,8 @@
 const QUERY_TYPE = [
     'document',
     'radius',
-    'indicators'
+    'indicators',
+    'category'
 ]
 
 const toJSON = (element) => {
